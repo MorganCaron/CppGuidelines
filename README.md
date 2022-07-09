@@ -66,7 +66,7 @@ C'est pourquoi ce petit investissement de temps peut sur le long terme corriger 
 ### Choix du caractère d'indentation
 
 L'indentation doit faire plusieurs caractères de large pour être clairement lisible:
-<center>4 espaces ou 1 tabulation faisant la même largeur</center>
+4 espaces ou 1 tabulation faisant la même largeur
 
 Indenter avec 1 tabulations:
 ```cpp
@@ -85,11 +85,11 @@ auto main() -> void
 ```
 
 |   | 1 tabulations | 4 espaces |
-| -:|:-----------:|:-------:|
+| -:|:-:|:-:|
 | Pas de demi-indentation possible | ✅ | ❌ |
 | Economie de caractères | ✅ | ❌ |
 
-**<center>=> Indenter avec 1 tabulation</center>**
+**=> Indenter avec 1 tabulation**
 
 ---
 
@@ -120,7 +120,7 @@ Indentation après le caractère '#':
 | La portion d'instructions préprocesseur est plus facile à différencer des autres instructions | ❌ | ✅ |
 | Nom de l'instruction préprocesseur plus lisible | ❌ | ✅ |
 
-**<center>=> Indentation après le caractère '#'</center>**
+**=> Indentation après le caractère '#'**
 
 ---
 
@@ -210,7 +210,81 @@ Il n'y a donc pas de raison que les instructions C++ conservent leur indentation
 | Facile à indenter | ❌ | ❌ | ✅ | ✅ |
 | Argument 1. | ✅ | ❌ | ❌ | ✅ |
 
-**<center>=> D - Indentation distinctes entre les instructions C++ et les instructions préprocesseur</center>**
+**=> D - Indentation distinctes entre les instructions C++ et les instructions préprocesseur**
+
+---
+
+### Indentation de l'instruction switch
+
+A - Pas d'indentation des instructions ``case``, ``default`` et ``{}``:
+```cpp
+switch (number)
+{
+case 0:
+	break;
+case 1:
+{
+	break;
+}
+default:
+	break;
+}
+```
+
+B - Pas d'indentation des instructions ``case`` et ``default``:
+```cpp
+switch (number)
+{
+case 0:
+	break;
+case 1:
+	{
+		break;
+	}
+default:
+	break;
+}
+```
+
+C - Pas d'indentation des accolades:
+```cpp
+switch (number)
+{
+	case 0:
+		break;
+	case 1:
+	{
+		break;
+	}
+	default:
+		break;
+}
+```
+
+D - Indentation de toute instruction:
+```cpp
+switch (number)
+{
+	case 0:
+		break;
+	case 1:
+		{
+			break;
+		}
+	default:
+		break;
+}
+```
+
+> Les accolades sont nécessaires dans un ``case`` lorsqu'elles contiennent une déclaration de variable.
+
+Argument en défaveur du choix A qui n'indente ni les instructions ``case``/``default`` ni les accolades:
+- Les accolades des ``case`` sont alignés horizontalement avec les accolades du ``switch``.
+Ce n'est pas clair pour savoir si l'accolade du switch est bien fermée.
+
+Les choix C et D semblent aussi bien l'un que l'autre. Le choix B reste néanmoins meilleur car il propose une écriture uniforme avec l'indentation des mots clef ``public:``, ``protected:`` et ``private:`` des struct/class.
+
+**=> B - Pas d'indentation des instructions ``case`` et ``default``**
 
 ---
 
@@ -237,7 +311,7 @@ auto main() -> void
 | Facilité à distinguer l'ouverture d'accolade correspondant à une fermeture (ou l'inverse) | ❌ | ✅ |
 | Norme majoritaire dans les projets C++ | ❌ | ✅ |
 
-**<center>=> Ouverture d'accolades sur une nouvelle ligne</center>**
+**=> Ouverture d'accolades sur une nouvelle ligne**
 
 ---
 
@@ -258,26 +332,21 @@ if (printLogs)
 ```
 
 |   | Accolades pour une instruction | Pas d'accolades pour une instruction |
-| -:|:-----------:|:-------:|
+| -:|:-:|:-:|
 | Economise des lignes | ❌ | ✅ |
 | Lisibilité | ✅ (mais superflu)<sup>1</sup> | ❌ |
 
 1. L'indentation sert à distinguer visuellement un scope d'un autre même en l'absence d'accolades.<br>
 Pas besoin d'accolades pour expliciter une seconde fois qu'on est dans un nouveau scope (information superflue).
 
-**<center>=> Ne pas mettre d'accolades lorsqu'elles contiennent qu'une instruction</center>**
+**=> Ne pas mettre d'accolades lorsqu'elles contiennent qu'une instruction**
 
 ---
-# CppGuidelines
-C++ Guidelines
+
+
+
 
 [CppReference: Undefined Behavior]: https://en.cppreference.com/w/cpp/language/ub
 [Wikipedia: KISS]: https://fr.wikipedia.org/wiki/Principe_KISS
 [Wikipedia: Rasoir d'Ockham]: https://fr.wikipedia.org/wiki/Rasoir_d'Ockham
 [The Boy Scout Rule]: https://www.stepsize.com/blog/how-to-be-an-effective-boy-girl-scout-engineer
-
-<style>
-table {
-	width: 100%;
-}
-</style>
