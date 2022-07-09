@@ -5,7 +5,7 @@
 Ce document comprend une coding style et une compilation de guidelines pour des projets en C++.
 
 ### A qui s'adresse ce document ?
-Ce document s'adresse à toute personne souhaitant contribuer sur un projet pour lequel il est indiqué de respecter cette coding style.
+Ce document s'adresse à toute personne souhaitant contribuer sur un projet sur lequel il est indiqué de respecter cette coding style.
 Cela requiert de bonnes compétences en C++ moderne.
 Des liens vers des ressources (documentations, tutoriels, vidéos) seront fournis pour combler d'éventuelles lacunes si besoin.
 
@@ -214,6 +214,32 @@ Il n'y a donc pas de raison que les instructions C++ conservent leur indentation
 
 ---
 
+### Protection des headers contre les multiples importations
+
+```cpp
+#ifndef FILENAME_H_
+#	define FILENAME_H_
+
+// Code.
+
+#endif
+```
+
+```cpp
+#pragma once
+
+// Code.
+```
+
+|   | #ifndef FILENAME_H_ | #pragma once |
+| -:|:-:|:-:|
+| Concis | ❌ | ✅ |
+| Pas de risque que deux headers utilisent la même macro | ❌ | ✅ |
+
+**=> #pragma once**
+
+---
+
 ### Indentation de l'instruction switch
 
 A - Pas d'indentation des instructions ``case``, ``default`` et ``{}``:
@@ -282,7 +308,7 @@ Argument en défaveur du choix A qui n'indente ni les instructions ``case``/``de
 - Les accolades des ``case`` sont alignés horizontalement avec les accolades du ``switch``.
 Ce n'est pas clair pour savoir si l'accolade du switch est bien fermée.
 
-Les choix C et D semblent aussi bien l'un que l'autre. Le choix B reste néanmoins meilleur car il propose une écriture uniforme avec l'indentation des mots clef ``public:``, ``protected:`` et ``private:`` des struct/class.
+Les choix C et D semblent aussi bien l'un que l'autre. Le choix B reste néanmoins meilleur car il propose une écriture concise et uniforme avec l'indentation des mots clef ``public:``, ``protected:`` et ``private:`` des struct/class.
 
 **=> B - Pas d'indentation des instructions ``case`` et ``default``**
 
