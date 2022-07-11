@@ -4,48 +4,61 @@
 
 Ce document comprend une coding style et une compilation de guidelines pour des projets en C++.
 
-### A qui s'adresse ce document ?
+<details><summary>A qui s'adresse ce document ?</summary><p>
+
 Ce document s'adresse à toute personne souhaitant contribuer sur un projet sur lequel il est indiqué de respecter cette coding style.
 Cela requiert de bonnes compétences en C++ moderne.
 Des liens vers des ressources (documentations, tutoriels, vidéos) seront fournis pour combler d'éventuelles lacunes si besoin.
+</p></details>
 
-### Pourquoi une coding style ?
+<details><summary>Pourquoi une coding style ?</summary><p>
+
 Le choix d'une coding style n'est pas arbitraire, chaque choix fait dans ce document a été réfléchis, pas seulement pour ses avantages en terme de lisibilité mais aussi pour réduire les risques d'erreurs, les ambiguïtés, les comportements indéfinis du compilateur ([CppReference: Undefined Behavior]), problèmes d'optimisation, etc.
 Chacune de ces raisons est soigneusement expliqué pour pouvoir être remis en question à chaque évolution du langage. Ce document n'est pas figé, il est ouvert aux débats et est voué à changer pour s'adapter aux nouvelles fonctionnalités du C++.
+</p></details>
 
-### Pourquoi modifier la coding style avec le temps ?
+<details><summary>Pourquoi modifier la coding style avec le temps ?</summary><p>
+
 Le métier de développeur est un métier dont la formation ne s'arrête jamais.
 Il faut se tenir au courant des nouveaux progrès dans nos domaines pour pouvoir fournir du travail de meilleur qualité sans rester attaché à des notions devenues obsolètes.
 
 Les anciens codes conçus avec des fonctions obsolètes seront menés à être rénovées progressivement par les développeurs qui tomberont dessus (pas de refonte totale nécessaire).
 Ainsi les programmeurs s'assureront de bien tester les fonctions qu'ils recodent pour s'assurer de l'absence de régression de code (avec des tests unitaires et des tests fonctionnels).
+</p></details>
 
 ## Philosophie
 
-### Clean Code
+<details><summary>Clean Code</summary><p>
+
 Le Clean Code n'est pas un ensemble de règles strictes mais désigne plutôt une série de principes pour produire un code compréhensible et facile à modifier.
 Compréhensible signifie dans ce cas un code immédiatement intelligible par n'importe quel développeur qualifié.
 Un code est facile à modifier lorsqu'il peut être facilement ajusté et complété.
 Un code facilement modifiable comporte les attributs suivants:
 - Les classes et les méthodes sont **petites** et, dans la mesure du possible, ont une seule et unique tâche.
 - Les classes et les méthodes sont **prévisibles**, fonctionnent de la façon attendue.
+</p></details>
 
-### Principe KISS
+<details><summary>Principe KISS</summary><p>
+
 KISS ([Wikipedia: KISS]) ("**K**eep **i**t **s**imple, **s**tupid", en français: "garde ça simple, idiot") est l’un des plus anciens principes du Clean Code.
 KISS rappelle aux programmeurs de construire leur code de façon aussi simple que possible.
 Toute complexité inutile doit être évitée.
 En programmation, il n’y a jamais une seule façon pour résoudre un problème. Une algorithme peut toujours être exprimé de différentes manières. Par conséquent, les programmeurs observant le principe KISS doivent constamment se demander s’ils ne peuvent pas résoudre un problème plus facilement.
 
 > Ce principe est lié au concept du Rasoir d'Ockham ([Wikipedia: Rasoir d'Ockham]) en raisonnement, qui consiste à préférer les explications les plus simples, car elles sont généralement plus crédibles que les explications complexes.
+</p></details>
 
-### Principe DRY
+<details><summary>Principe DRY</summary><p>
+
 Le principe DRY (**D**on't **r**epeat **y**ourself) est en quelque sorte la concrétisation du principe KISS. Un Clean Code respectant ce principe implique que chaque fonctionnalité doit avoir une seule et unique représentation au sein du système global.
 Il consiste à écrire des fonctions et des classes réutilisables, aussi simples que possible et traitant un minimum de tâches à la fois.
 Ce principe encourage à décomposer un programme en de nombreuses classes et fonctions pour garder chaque partie propre sans avoir de répétitions de code.
 Un code dans lequel ont copie-colle plusieurs lignes pour gérer des cas supplémentaire est un bon exemple de code qui ne respecte pas le principe DRY.
 Le contraire de DRY est WET (**W**e **e**njoy **t**yping). On appelle WET un code comportant des répétitions inutiles.
+</p></details>
 
-### La règle du Scout
+<details><summary>La règle du Scout</summary><p>
+
 [The Boy Scout Rule]
 
 > Un Scout a une règle: "Toujours laisser un endroit dans un état meilleur que celui dans lequel vous l'avez trouvé".
@@ -60,10 +73,13 @@ Il peut se permettre de prendre le temps de nettoyer de grosses parties du code 
 
 Un code obsolète qui fonctionne n'est pas une bonne base sur laquelle se reposer pour bâtir la suite d'un projet.
 C'est pourquoi ce petit investissement de temps peut sur le long terme corriger d'importants problèmes de dette technique et ainsi éviter des bugs ou des complications dans la réalisation de futures tâches.
+</p></details>
 
 ## Coding Style
 
-### Choix du caractère d'indentation
+### Indentation
+
+<details><summary>Utilisation de tabulations pour l'indentation</summary><p>
 
 L'indentation doit faire plusieurs caractères de large pour être clairement lisible:
 4 espaces ou 1 tabulation faisant la même largeur
@@ -90,10 +106,9 @@ auto main() -> void
 | Economie de caractères | ✅ | ❌ |
 
 **=> Indenter avec 1 tabulation**
+</p></details>
 
----
-
-### Indentation des instructions préprocesseur
+<details><summary>Indentation des instructions préprocesseur après le caractère '#'</summary><p>
 
 Indentation avant le caractère '#':
 ```cpp
@@ -121,11 +136,9 @@ Indentation après le caractère '#':
 | Nom de l'instruction préprocesseur plus lisible | ❌ | ✅ |
 
 **=> Indentation après le caractère '#'**
+</p></details>
 
----
-
-### Assemblage des indentations d'instructions C++ et d'instructions préprocesseur
-
+<details><summary>Indentation distinctes entre les instructions C++ et les instructions préprocesseur</summary><p>
 
 A - Indentation des instructions préprocesseur dans les scopes C++ (et pas l'inverse):
 ```cpp
@@ -211,36 +224,9 @@ Il n'y a donc pas de raison que les instructions C++ conservent leur indentation
 | Argument 1. | ✅ | ❌ | ❌ | ✅ |
 
 **=> D - Indentation distinctes entre les instructions C++ et les instructions préprocesseur**
+</p></details>
 
----
-
-### Protection des headers contre les multiples importations
-
-```cpp
-#ifndef FILENAME_H_
-#	define FILENAME_H_
-
-// Code.
-
-#endif
-```
-
-```cpp
-#pragma once
-
-// Code.
-```
-
-|   | #ifndef FILENAME_H_ | #pragma once |
-| -:|:-:|:-:|
-| Concis | ❌ | ✅ |
-| Pas de risque que deux headers utilisent la même macro | ❌ | ✅ |
-
-**=> #pragma once**
-
----
-
-### Indentation de l'instruction switch
+<details><summary>Pas d'indentation des instructions case et default dans les instructions switch</summary><p>
 
 A - Pas d'indentation des instructions ``case``, ``default`` et ``{}``:
 ```cpp
@@ -311,10 +297,38 @@ Ce n'est pas clair pour savoir si l'accolade du switch est bien fermée.
 Les choix C et D semblent aussi bien l'un que l'autre. Le choix B reste néanmoins meilleur car il propose une écriture concise et uniforme avec l'indentation des mots clef ``public:``, ``protected:`` et ``private:`` des struct/class.
 
 **=> B - Pas d'indentation des instructions ``case`` et ``default``**
+</p></details>
 
----
+### Préprocesseur
 
-### Placement des accolades
+<details><summary>Protection des headers contre les multiples importations avec #pragma once</summary><p>
+
+```cpp
+#ifndef FILENAME_H_
+#	define FILENAME_H_
+
+// Code.
+
+#endif
+```
+
+```cpp
+#pragma once
+
+// Code.
+```
+
+|   | #ifndef FILENAME_H_ | #pragma once |
+| -:|:-:|:-:|
+| Concis | ❌ | ✅ |
+| Pas de risque que deux headers utilisent la même macro | ❌ | ✅ |
+
+**=> #pragma once**
+</p></details>
+
+### Scopes
+
+<details><summary>Ouverture des accolades sur une nouvelle ligne</summary><p>
 
 Ouverture d'accolades en fin de ligne:
 ```cpp
@@ -338,10 +352,9 @@ auto main() -> void
 | Norme majoritaire dans les projets C++ | ❌ | ✅ |
 
 **=> Ouverture d'accolades sur une nouvelle ligne**
+</p></details>
 
----
-
-### Présence d'accolades pour une seule instruction
+<details><summary>Pas d'accolades pour une seule instruction</summary><p>
 
 Mettre des accolades même s'il n'y a qu'une instruction à l'intérieur:
 ```cpp
@@ -366,6 +379,8 @@ if (printLogs)
 Pas besoin d'accolades pour expliciter une seconde fois qu'on est dans un nouveau scope (information superflue).
 
 **=> Ne pas mettre d'accolades lorsqu'elles contiennent qu'une instruction**
+</p></details>
+
 
 ---
 
