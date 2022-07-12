@@ -381,6 +381,55 @@ Pas besoin d'accolades pour expliciter une seconde fois qu'on est dans un nouvea
 **=> Ne pas mettre d'accolades lorsqu'elles contiennent qu'une instruction**
 </p></details>
 
+### Nommage
+
+<details><summary>Pas de nom de type dans les noms de variable</summary><p>
+
+Le nom d'une variable ne doit pas annoncer explicitement son type (sauf pour les types user-defined).
+Celui-ci étant déjà renseigné et facilement déductible si le nom est bien choisi.
+- On devinera qu'une variable "name" est de type ``std::string`` (ou ``std::string_view`` s'il est clair que la variable ne possède pas la donnée).
+- On devinera également qu'un "id" est un ``unsigned int``.
+De plus, la plupart des IDE permettent de connaitre le type d'une variable en la survolant avec la souris. Et lorsque ce n'est pas le cas, sa définition reste facilement accessible.
+</p></details>
+
+<details><summary>Pas de noms arbitraires dénués de sens</summary><p>
+
+Les variables ne doivent pas porter de nom arbitraire dénué de sens (a, b, c, tmp, toto, foo, bar, etc...).
+Le nom de la variable doit être assez explicites pour renseigner sur la nature de son contenu.
+Et les mots ne doivent pas être interprétés différemment de leur sens réel dans le cadre d'un projet particulier.
+</p></details>
+
+<details><summary>Pas accronymes ni de contractions de mots (sauf rares exceptions)</summary><p>
+
+Les accronymes et contractions de mots sont proscrits, sauf exceptions assez claires pour ne pas porter à confusion (Id, Json, AST, i18n, etc...).
+
+Décoder les accronymes et les contractions de mots lors de la relecture de code demande une charge mentale supplémentaire pour comprendre ce que le code fait.
+De plus, certains accronymes peuvent donner plusieurs mots différents selon le contexte et l'interprétation des développeurs.
+
+❌:
+```cpp
+using Id = std::uint64_t;
+
+struct DelUserCmd final
+{
+	Id userId;
+};
+```
+
+✅:
+```cpp
+using Id = std::uint64_t;
+
+namespace User
+{
+	struct DeleteCommand final
+	{
+		Id userId;
+	};
+}
+```
+
+</p></details>
 
 ---
 
