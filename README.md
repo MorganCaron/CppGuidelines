@@ -6,21 +6,24 @@ Ce document comprend une coding style et une compilation de guidelines pour des 
 
 <details><summary>A qui s'adresse ce document ?</summary><p>
 
-Ce document s'adresse à toute personne souhaitant contribuer sur un projet sur lequel il est indiqué de respecter cette coding style.
+Ce document s'adresse à toute personne souhaitant contribuer sur un projet sur lequel il est indiqué d'appliquer cette coding style.
 Cela requiert de bonnes compétences en C++ moderne.
 Des liens vers des ressources (documentations, tutoriels, vidéos) seront fournis pour combler d'éventuelles lacunes si besoin.
 </p></details>
 
 <details><summary>Pourquoi une coding style ?</summary><p>
 
-Le choix d'une coding style n'est pas arbitraire, chaque choix fait dans ce document a été réfléchis, pas seulement pour ses avantages en terme de lisibilité mais aussi pour réduire les risques d'erreurs, les ambiguïtés, les comportements indéfinis du compilateur ([CppReference: Undefined Behavior]), problèmes d'optimisation, etc.
+Le choix d'une coding style n'est pas arbitraire, chaque choix fait dans ce document a été réfléchis, pas seulement pour ses avantages en terme de lisibilité mais aussi pour réduire les risques d'erreurs, les ambiguïtés, la redondance, les comportements indéfinis du compilateur ([CppReference: Undefined Behavior]), problèmes d'optimisation, etc.
 Chacune de ces raisons est soigneusement expliqué pour pouvoir être remis en question à chaque évolution du langage. Ce document n'est pas figé, il est ouvert aux débats et est voué à changer pour s'adapter aux nouvelles fonctionnalités du C++.
 </p></details>
 
 <details><summary>Pourquoi modifier la coding style avec le temps ?</summary><p>
 
 Le métier de développeur est un métier dont la formation ne s'arrête jamais.
-Il faut se tenir au courant des nouveaux progrès dans nos domaines pour pouvoir fournir du travail de meilleur qualité sans rester attaché à des notions devenues obsolètes.
+Il faut se tenir au courant des nouveaux progrès dans ce domaine pour pouvoir fournir du travail de meilleur qualité sans rester attaché à des notions devenues obsolètes.
+
+La coding style d'un projet doit s'adapter aux évolutions du langage.
+Mais on peut aussi penser à de nouveaux choix de norme dont on avait pas pensé initialement, ou simplement vouloir améliorer l'existant.
 
 Les anciens codes conçus avec des fonctions obsolètes seront menés à être rénovées progressivement par les développeurs qui tomberont dessus (pas de refonte totale nécessaire).
 Ainsi les programmeurs s'assureront de bien tester les fonctions qu'ils recodent pour s'assurer de l'absence de régression de code (avec des tests unitaires et des tests fonctionnels).
@@ -288,6 +291,21 @@ switch (number)
 }
 ```
 
+E - Indentation des instructions ``case`` et ``default`` seulement:
+```cpp
+switch (number)
+{
+	case 0:
+	break;
+	case 1:
+	{
+		break;
+	}
+	default:
+	break;
+}
+```
+
 > Les accolades sont nécessaires dans un ``case`` lorsqu'elles contiennent une déclaration de variable.
 
 Argument en défaveur du choix A qui n'indente ni les instructions ``case``/``default`` ni les accolades:
@@ -296,34 +314,38 @@ Ce n'est pas clair pour savoir si l'accolade du switch est bien fermée.
 
 Les choix C et D semblent aussi bien l'un que l'autre. Le choix B reste néanmoins meilleur car il propose une écriture concise et uniforme avec l'indentation des mots clef ``public:``, ``protected:`` et ``private:`` des struct/class.
 
+Le choix E ne permet pas de voir clairement quelles instructions sont dans chaque ``case``.
+
 **=> B - Pas d'indentation des instructions ``case`` et ``default``**
 </p></details>
 
 ### Préprocesseur
 
-<details><summary>Protection des headers contre les multiples importations avec #pragma once</summary><p>
+<details><summary>Header-guard: <code>#pragma once</code></summary><p>
 
+Les header-guards ([Wikipedia: Include guard]) protègent les headers contre les multiples importations.
+Tous les fichiers headers doivent avoir des headers guards.
+
+Historiquement, les header-guards ont toujours été faits avec des ``#define``:
 ```cpp
-#ifndef FILENAME_H_
-#	define FILENAME_H_
+#ifndef PROJECT_PATH_FILE_H_
+#	define PROJECT_PATH_FILE_H_
 
-// Code.
+// ...
 
-#endif
+#endif /* !PROJECT_PATH_FILE_H_ */
 ```
 
+Pour garantir l'unicité des header-guards, chaque header doit utiliser un nom de macro unique. Afin d'éviter que deux fichiers utilisent le même nom de macro, celui-ci doit contenir le nom du projet ainsi que le chemin complet du fichier.
+
+Pour cette raison, les compilateurs C/C++ fournissent ``#pragma once`` qui permet de s'assurer que le fichier n'est importé qu'une fois dans le projet, sans avoir à renseigner un nom unique.
 ```cpp
 #pragma once
 
-// Code.
+// ...
 ```
+``#pragma once`` n'est pas standard mais est supporté par la grande majorité des compilateurs modernes C/C++ ([Wikipedia: Pragma once : Portability]).
 
-|   | #ifndef FILENAME_H_ | #pragma once |
-| -:|:-:|:-:|
-| Concis | ❌ | ✅ |
-| Pas de risque que deux headers utilisent la même macro | ❌ | ✅ |
-
-**=> #pragma once**
 </p></details>
 
 ### Scopes
@@ -440,3 +462,5 @@ namespace User
 [Wikipedia: KISS]: https://fr.wikipedia.org/wiki/Principe_KISS
 [Wikipedia: Rasoir d'Ockham]: https://fr.wikipedia.org/wiki/Rasoir_d'Ockham
 [The Boy Scout Rule]: https://www.stepsize.com/blog/how-to-be-an-effective-boy-girl-scout-engineer
+[Wikipedia: Include guard]: https://en.wikipedia.org/wiki/Include_guard
+[Wikipedia: Pragma once : Portability]: https://en.wikipedia.org/wiki/Pragma_once#Portability
