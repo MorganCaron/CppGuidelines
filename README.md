@@ -82,33 +82,13 @@ C'est pourquoi ce petit investissement de temps peut sur le long terme corriger 
 
 ### Indentation
 
-<details><summary>Utilisation de tabulations pour l'indentation</summary><p>
+<details><summary>Caractère d'indentation: <code>tabulation</code></summary><p>
 
-L'indentation doit faire plusieurs caractères de large pour être clairement lisible:
-4 espaces ou 1 tabulation faisant la même largeur
+Pour être clairement lisible, l'indentation avec le caractère ``espace`` se fait généralement en accumulant plusieurs espaces (exemple: indentation de 2 espaces, ou de 4 espaces à la fois).
 
-Indenter avec 1 tabulations:
-```cpp
-auto main() -> void
-{
-	std::cout << "Hello World!" << std::endl;
-}
-```
-
-Indenter avec 4 espaces:
-```cpp
-auto main() -> void
-{
-    std::cout << "Hello World!" << std::endl;
-}
-```
-
-|   | 1 tabulations | 4 espaces |
-| -:|:-:|:-:|
-| Pas de demi-indentation possible | ✅ | ❌ |
-| Economie de caractères | ✅ | ❌ |
-
-**=> Indenter avec 1 tabulation**
+Cette écriture rend possible les demi-indentations (avec 1 ou 3 espaces) et n'apporte aucun avantage par rapport aux tabulations.
+Les tabulations sont plus simples à utiliser: un seul caractère par indentation.
+De plus, chaque développeur peut choisir son indentation sur son IDE (en définissant la taille du caractère tabulation) sans impacter le projet ou l'environnement d'un autre.
 </p></details>
 
 <details><summary>Indentation des instructions préprocesseur après le caractère '#'</summary><p>
@@ -326,7 +306,7 @@ Le choix E ne permet pas de voir clairement quelles instructions sont dans chaqu
 Les header-guards ([Wikipedia: Include guard]) protègent les headers contre les multiples importations.
 Tous les fichiers headers doivent avoir des headers guards.
 
-Historiquement, les header-guards ont toujours été faits avec des ``#define``:
+Historiquement, les header-guards ont toujours été faits avec des ``#ifndef``:
 ```cpp
 #ifndef PROJECT_PATH_FILE_H_
 #	define PROJECT_PATH_FILE_H_
@@ -338,14 +318,23 @@ Historiquement, les header-guards ont toujours été faits avec des ``#define``:
 
 Pour garantir l'unicité des header-guards, chaque header doit utiliser un nom de macro unique. Afin d'éviter que deux fichiers utilisent le même nom de macro, celui-ci doit contenir le nom du projet ainsi que le chemin complet du fichier.
 
-Pour cette raison, les compilateurs C/C++ fournissent ``#pragma once`` qui permet de s'assurer que le fichier n'est importé qu'une fois dans le projet, sans avoir à renseigner un nom unique.
+Les compilateurs C/C++ fournissent ``#pragma once`` qui permet de s'assurer que le fichier n'est importé qu'une fois dans le projet, sans avoir à renseigner un nom unique.
 ```cpp
 #pragma once
 
 // ...
 ```
-``#pragma once`` n'est pas standard mais est supporté par la grande majorité des compilateurs modernes C/C++ ([Wikipedia: Pragma once : Portability]).
 
+L'intérêt de ``#pragma once`` (comme remplacement au header-guard ``#ifndef``) était d'accélérer la compilation, car celui-ci taggait le fichier comme étant déjà inclut (alors que pour les ``#ifndef`` il fallait reparser le fichier pour tester l'existence de la macro).
+Aujourd'hui les compilateurs modernes (Clang, GCC et MSVC) reconnaissent les header-guards ``#ifndef`` et les traitent comme des ``#pragma once``:
+
+GCC: [GCC Header-guard](https://gcc.gnu.org/onlinedocs/cppinternals/Guard-Macros.html)
+> to prevent the compiler from processing them more than once. The preprocessor notices such header files, so that if the header file appears in a subsequent #include directive and FOO is defined, then it is ignored and it doesn’t preprocess or even re-open the file a second time. This is referred to as the multiple include optimization.
+
+MSVC: [MSVC Header-guard](https://docs.microsoft.com/en-us/cpp/preprocessor/once?view=msvc-170)
+> There's no advantage to use of both the include guard idiom and #pragma once in the same file. The compiler recognizes the include guard idiom, and implements the multiple-include optimization the same way as the #pragma once directive if no non-comment code or preprocessor directive comes before or after the standard form of the idiom
+
+``#pragma once`` n'est pas standard mais est supporté par la grande majorité des compilateurs modernes C/C++ ([Wikipedia: Pragma once : Portability]).
 </p></details>
 
 ### Scopes
