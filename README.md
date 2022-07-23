@@ -84,11 +84,12 @@ C'est pourquoi ce petit investissement de temps peut sur le long terme corriger 
 
 <details><summary>Caractère d'indentation: <code>tabulation</code></summary><p>
 
-Pour être clairement lisible, l'indentation avec le caractère ``espace`` se fait généralement en accumulant plusieurs espaces (exemple: indentation de 2 espaces, ou de 4 espaces à la fois).
+En indentant avec le caractère ``espace``, il est souvent préférable de cumuler plusieurs espaces par indentation pour qu'elles soient bien visibles (exemple: indentation de 2 espaces, ou de 4 espaces à la fois). Cette écriture rend possible les demi-indentations (avec 1 ou 3 espaces).
 
-Cette écriture rend possible les demi-indentations (avec 1 ou 3 espaces) et n'apporte aucun avantage par rapport aux tabulations.
+Le choix d'espaces plutôt que de tabulation servait à s'assurer que le code ne dépassait pas 80 colonnes pour tenir sur les petits écrans de l'époque. Cette raison n'est plus valable aujourd'hui.
+
 Les tabulations sont plus simples à utiliser: un seul caractère par indentation.
-De plus, chaque développeur peut choisir son indentation sur son IDE (en définissant la taille du caractère tabulation) sans impacter le projet ou l'environnement d'un autre.
+Et chaque développeur peut choisir la taille de l'indentation sur son IDE sans impacter le projet ou l'environnement d'un autre.
 </p></details>
 
 <details><summary>Indentation des instructions préprocesseur après le caractère '#'</summary><p>
