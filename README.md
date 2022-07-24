@@ -9,12 +9,16 @@ Ce document comprend une coding style et une compilation de guidelines pour des 
 Ce document s'adresse à toute personne souhaitant contribuer sur un projet sur lequel il est indiqué d'appliquer cette coding style.
 Cela requiert de bonnes compétences en C++ moderne.
 Des liens vers des ressources (documentations, tutoriels, vidéos) seront fournis pour combler d'éventuelles lacunes si besoin.
+
+---
 </p></details>
 
 <details><summary>Pourquoi une coding style ?</summary><p>
 
 Le choix d'une coding style n'est pas arbitraire, chaque choix fait dans ce document a été réfléchis, pas seulement pour ses avantages en terme de lisibilité mais aussi pour réduire les risques d'erreurs, les ambiguïtés, la redondance, les comportements indéfinis du compilateur ([CppReference: Undefined Behavior]), problèmes d'optimisation, etc.
 Chacune de ces raisons est soigneusement expliqué pour pouvoir être remis en question à chaque évolution du langage. Ce document n'est pas figé, il est ouvert aux débats et est voué à changer pour s'adapter aux nouvelles fonctionnalités du C++.
+
+---
 </p></details>
 
 <details><summary>Pourquoi modifier la coding style avec le temps ?</summary><p>
@@ -27,6 +31,8 @@ Mais on peut aussi penser à de nouveaux choix de norme dont on avait pas pensé
 
 Les anciens codes conçus avec des fonctions obsolètes seront menés à être rénovées progressivement par les développeurs qui tomberont dessus (pas de refonte totale nécessaire).
 Ainsi les programmeurs s'assureront de bien tester les fonctions qu'ils recodent pour s'assurer de l'absence de régression de code (avec des tests unitaires et des tests fonctionnels).
+
+---
 </p></details>
 
 ## Philosophie
@@ -39,6 +45,8 @@ Un code est facile à modifier lorsqu'il peut être facilement ajusté et compl�
 Un code facilement modifiable comporte les attributs suivants:
 - Les classes et les méthodes sont **petites** et, dans la mesure du possible, ont une seule et unique tâche.
 - Les classes et les méthodes sont **prévisibles**, fonctionnent de la façon attendue.
+
+---
 </p></details>
 
 <details><summary>Principe KISS</summary><p>
@@ -49,6 +57,8 @@ Toute complexité inutile doit être évitée.
 En programmation, il n’y a jamais une seule façon pour résoudre un problème. Une algorithme peut toujours être exprimé de différentes manières. Par conséquent, les programmeurs observant le principe KISS doivent constamment se demander s’ils ne peuvent pas résoudre un problème plus facilement.
 
 > Ce principe est lié au concept du Rasoir d'Ockham ([Wikipedia: Rasoir d'Ockham]) en raisonnement, qui consiste à préférer les explications les plus simples, car elles sont généralement plus crédibles que les explications complexes.
+
+---
 </p></details>
 
 <details><summary>Principe DRY</summary><p>
@@ -58,6 +68,8 @@ Il consiste à écrire des fonctions et des classes réutilisables, aussi simple
 Ce principe encourage à décomposer un programme en de nombreuses classes et fonctions pour garder chaque partie propre sans avoir de répétitions de code.
 Un code dans lequel ont copie-colle plusieurs lignes pour gérer des cas supplémentaire est un bon exemple de code qui ne respecte pas le principe DRY.
 Le contraire de DRY est WET (**W**e **e**njoy **t**yping). On appelle WET un code comportant des répétitions inutiles.
+
+---
 </p></details>
 
 <details><summary>La règle du Scout</summary><p>
@@ -76,6 +88,8 @@ Il peut se permettre de prendre le temps de nettoyer de grosses parties du code 
 
 Un code obsolète qui fonctionne n'est pas une bonne base sur laquelle se reposer pour bâtir la suite d'un projet.
 C'est pourquoi ce petit investissement de temps peut sur le long terme corriger d'importants problèmes de dette technique et ainsi éviter des bugs ou des complications dans la réalisation de futures tâches.
+
+---
 </p></details>
 
 ## Coding Style
@@ -84,12 +98,14 @@ C'est pourquoi ce petit investissement de temps peut sur le long terme corriger 
 
 <details><summary>Caractère d'indentation: <code>tabulation</code></summary><p>
 
-En indentant avec le caractère ``espace``, il est souvent préférable de cumuler plusieurs espaces par indentation pour qu'elles soient bien visibles (exemple: indentation de 2 espaces, ou de 4 espaces à la fois). Cette écriture rend possible les demi-indentations (avec 1 ou 3 espaces).
+En indentant avec le caractère ``espace``, il est souvent préférable de cumuler plusieurs espaces par indentation pour qu'elles soient bien visibles (exemple: 2 espaces ou 4 espaces à la fois). Mais cette écriture rend possible les demi-indentations (avec 1 ou 3 espaces).
 
 Le choix d'espaces plutôt que de tabulation servait à s'assurer que le code ne dépassait pas 80 colonnes pour tenir sur les petits écrans de l'époque. Cette raison n'est plus valable aujourd'hui.
 
 Les tabulations sont plus simples à utiliser: un seul caractère par indentation.
 Et chaque développeur peut choisir la taille de l'indentation sur son IDE sans impacter le projet ou l'environnement d'un autre.
+
+---
 </p></details>
 
 <details><summary>Indentation des instructions préprocesseur après le caractère '#'</summary><p>
@@ -120,6 +136,8 @@ Indentation après le caractère '#':
 | Nom de l'instruction préprocesseur plus lisible | ❌ | ✅ |
 
 **=> Indentation après le caractère '#'**
+
+---
 </p></details>
 
 <details><summary>Indentation distinctes entre les instructions C++ et les instructions préprocesseur</summary><p>
@@ -208,6 +226,8 @@ Il n'y a donc pas de raison que les instructions C++ conservent leur indentation
 | Argument 1. | ✅ | ❌ | ❌ | ✅ |
 
 **=> D - Indentation distinctes entre les instructions C++ et les instructions préprocesseur**
+
+---
 </p></details>
 
 <details><summary>Pas d'indentation des instructions case et default dans les instructions switch</summary><p>
@@ -298,6 +318,63 @@ Les choix C et D semblent aussi bien l'un que l'autre. Le choix B reste néanmoi
 Le choix E ne permet pas de voir clairement quelles instructions sont dans chaque ``case``.
 
 **=> B - Pas d'indentation des instructions ``case`` et ``default``**
+
+---
+</p></details>
+
+### Nommage
+
+<details><summary>Pas de nom de type dans les noms de variable</summary><p>
+
+Le nom d'une variable ne doit pas annoncer explicitement son type (sauf pour les types user-defined).
+Celui-ci étant déjà renseigné et facilement déductible si le nom est bien choisi.
+- On devinera qu'une variable "name" est de type ``std::string`` (ou ``std::string_view`` s'il est clair que la variable ne possède pas la donnée).
+- On devinera également qu'un "id" est un ``unsigned int``.
+De plus, la plupart des IDE permettent de connaitre le type d'une variable en la survolant avec la souris. Et lorsque ce n'est pas le cas, sa définition reste facilement accessible.
+
+---
+</p></details>
+
+<details><summary>Pas de noms arbitraires dénués de sens</summary><p>
+
+Les variables ne doivent pas porter de nom arbitraire dénué de sens (a, b, c, tmp, toto, foo, bar, etc...).
+Le nom de la variable doit être assez explicites pour renseigner sur la nature de son contenu.
+Et les mots ne doivent pas être interprétés différemment de leur sens réel dans le cadre d'un projet particulier.
+
+---
+</p></details>
+
+<details><summary>Pas acronymes ni de contractions de mots (sauf rares exceptions)</summary><p>
+
+Les acronymes et contractions de mots sont proscrits, sauf exceptions assez claires pour ne pas porter à confusion (Id, Json, AST, i18n, etc...).
+
+Décoder les acronymes et les contractions de mots lors de la relecture de code demande une charge mentale supplémentaire pour comprendre ce que le code fait.
+De plus, certains acronymes peuvent donner plusieurs mots différents selon le contexte et l'interprétation des développeurs.
+
+❌:
+```cpp
+using Id = std::uint64_t;
+
+struct DelUserCmd final
+{
+	Id userId;
+};
+```
+
+✅:
+```cpp
+using Id = std::uint64_t;
+
+namespace User
+{
+	struct DeleteCommand final
+	{
+		Id userId;
+	};
+}
+```
+
+---
 </p></details>
 
 ### Préprocesseur
@@ -336,6 +413,88 @@ MSVC: [MSVC Header-guard](https://docs.microsoft.com/en-us/cpp/preprocessor/once
 > There's no advantage to use of both the include guard idiom and #pragma once in the same file. The compiler recognizes the include guard idiom, and implements the multiple-include optimization the same way as the #pragma once directive if no non-comment code or preprocessor directive comes before or after the standard form of the idiom
 
 ``#pragma once`` n'est pas standard mais est supporté par la grande majorité des compilateurs modernes C/C++ ([Wikipedia: Pragma once : Portability]).
+
+---
+</p></details>
+
+<details><summary>Utiliser le moins de macros préprocesseur possible</summary><p>
+Dans la majorité des cas, une alternative C++ est préférable à une macro préprocesseur (variable constexpr, fonction inline, template, etc).
+
+#### Variable ``constexpr``:
+```cpp
+// #define PI 3.14159265358979323846
+
+constexpr auto pi = 3.14159265358979323846;
+
+auto main() -> int
+{
+    std::cout << pi << std::endl;
+}
+```
+Le compilateur est libre d'inliner les variables ``constexpr`` et d'omettre leur initialisation.
+Cette variable est aussi typée, ce qui en fait une alternative meilleure que les constantes déclarées avec ``#define``.
+
+#### Fonction inline
+
+#### Template
+
+---
+</p></details>
+
+
+### Commentaires
+
+<details><summary>Pas de commentaires décoratifs</summary><p>
+
+Les commentaires se font de la manière la plus simple:
+```cpp
+// Commentaire d'une ligne
+
+/* Commentaire
+de plusieurs
+lignes */
+```
+
+Pas de commentaires formatés de manière à être agréable visuellement:
+```cpp
+////////////////////////////////////////////////
+// Commentaire avec des caractères décoratifs //
+////////////////////////////////////////////////
+
+// #############################################
+
+/*
+ * Caractères '*'
+ * en début
+ * de chaque ligne
+ */
+```
+
+Les caractères supplémentaires de la 2ème écriture ne sont utilisés qu'à titre décoratif.
+Ca prend du temps à écrire, surtout si on veut respecter une uniformisation et l'alignement de tous les commentaires d'un fichier.
+
+---
+</p></details>
+
+### Espaces
+
+<details><summary>Espaces autour des opérateurs</summary><p>
+---
+</p></details>
+
+<details><summary>Pas d'espaces autour des parenthèses</summary><p>
+
+---
+</p></details>
+
+<details><summary>Espace après les virgules</summary><p>
+
+---
+</p></details>
+
+<details><summary>Pas d'espaces pour aligner des éléments</summary><p>
+
+---
 </p></details>
 
 ### Scopes
@@ -344,14 +503,14 @@ MSVC: [MSVC Header-guard](https://docs.microsoft.com/en-us/cpp/preprocessor/once
 
 Ouverture d'accolades en fin de ligne:
 ```cpp
-auto main() -> void {
+auto main() -> int {
     std::cout << "Hello World!" << std::endl;
 }
 ```
 
 Ouverture d'accolades sur une nouvelle ligne:
 ```cpp
-auto main() -> void
+auto main() -> int
 {
     std::cout << "Hello World!" << std::endl;
 }
@@ -363,7 +522,7 @@ auto main() -> void
 | Facilité à distinguer l'ouverture d'accolade correspondant à une fermeture (ou l'inverse) | ❌ | ✅ |
 | Norme majoritaire dans les projets C++ | ❌ | ✅ |
 
-**=> Ouverture d'accolades sur une nouvelle ligne**
+---
 </p></details>
 
 <details><summary>Pas d'accolades pour une seule instruction</summary><p>
@@ -391,62 +550,29 @@ if (printLogs)
 Pas besoin d'accolades pour expliciter une seconde fois qu'on est dans un nouveau scope (information superflue).
 
 **=> Ne pas mettre d'accolades lorsqu'elles contiennent qu'une instruction**
-</p></details>
-
-### Nommage
-
-<details><summary>Pas de nom de type dans les noms de variable</summary><p>
-
-Le nom d'une variable ne doit pas annoncer explicitement son type (sauf pour les types user-defined).
-Celui-ci étant déjà renseigné et facilement déductible si le nom est bien choisi.
-- On devinera qu'une variable "name" est de type ``std::string`` (ou ``std::string_view`` s'il est clair que la variable ne possède pas la donnée).
-- On devinera également qu'un "id" est un ``unsigned int``.
-De plus, la plupart des IDE permettent de connaitre le type d'une variable en la survolant avec la souris. Et lorsque ce n'est pas le cas, sa définition reste facilement accessible.
-</p></details>
-
-<details><summary>Pas de noms arbitraires dénués de sens</summary><p>
-
-Les variables ne doivent pas porter de nom arbitraire dénué de sens (a, b, c, tmp, toto, foo, bar, etc...).
-Le nom de la variable doit être assez explicites pour renseigner sur la nature de son contenu.
-Et les mots ne doivent pas être interprétés différemment de leur sens réel dans le cadre d'un projet particulier.
-</p></details>
-
-<details><summary>Pas accronymes ni de contractions de mots (sauf rares exceptions)</summary><p>
-
-Les accronymes et contractions de mots sont proscrits, sauf exceptions assez claires pour ne pas porter à confusion (Id, Json, AST, i18n, etc...).
-
-Décoder les accronymes et les contractions de mots lors de la relecture de code demande une charge mentale supplémentaire pour comprendre ce que le code fait.
-De plus, certains accronymes peuvent donner plusieurs mots différents selon le contexte et l'interprétation des développeurs.
-
-❌:
-```cpp
-using Id = std::uint64_t;
-
-struct DelUserCmd final
-{
-	Id userId;
-};
-```
-
-✅:
-```cpp
-using Id = std::uint64_t;
-
-namespace User
-{
-	struct DeleteCommand final
-	{
-		Id userId;
-	};
-}
-```
-
-</p></details>
 
 ---
+</p></details>
+
+### Types
+
+<details><summary>Almost Always Auto</summary><p>
 
 
+---
+</p></details>
 
+<details><summary>Typage en fin de signature</summary><p>
+
+
+---
+</p></details>
+
+<details><summary>Pas de raw-pointer</summary><p>
+
+
+---
+</p></details>
 
 [CppReference: Undefined Behavior]: https://en.cppreference.com/w/cpp/language/ub
 [Wikipedia: KISS]: https://fr.wikipedia.org/wiki/Principe_KISS
@@ -454,3 +580,4 @@ namespace User
 [The Boy Scout Rule]: https://www.stepsize.com/blog/how-to-be-an-effective-boy-girl-scout-engineer
 [Wikipedia: Include guard]: https://en.wikipedia.org/wiki/Include_guard
 [Wikipedia: Pragma once : Portability]: https://en.wikipedia.org/wiki/Pragma_once#Portability
+
