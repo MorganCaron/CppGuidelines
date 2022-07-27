@@ -487,25 +487,87 @@ MSVC: [MSVC Header-guard](https://docs.microsoft.com/en-us/cpp/preprocessor/once
 </p></details>
 
 <details><summary>Utiliser le moins de macros préprocesseur possible</summary><p>
-Dans la majorité des cas, une alternative C++ est préférable à une macro préprocesseur (variable constexpr, fonction inline, template, etc).
 
-#### Variable ``constexpr``:
+Les macros ``#define`` apportent un moyen simple de faire de la métaprogrammation et des constantes en C++.
+Mais au fil des évolutions du langage, leur utilité est de moins en moins pertinente.
+
+Le problème des macros préprocesseur est leur exécution sans aucune vérification sur le typage et le non-respect des namespaces (une macro préprocesseur est globale).
+De plus, les macros permettent d'insérer des portions de code sans vérifier si l'insertion est syntaxiquement correcte, laissant une autre étape de la compilation se charger de cette vérification.
+
+Les macros préprocesseur s'exécutent bêtement (un simple copier-coller), sans vérifier si le code généré est correct ou bien formatté.
+En cas d'erreur, les messages d'erreur ne sont pas très pertinents car le compilateur évalue un code déjà transformé par le préprocesseur. Il n'indiquera pas précisément d'où vient le problème.
+
+En C++ moderne il existe des alternatives aux macros préprocesseur pour beaucoup d'usages qu'on peut en faire, les rendant ainsi obsolètes dans beaucoup de situations.
+Parmis ces alternatives, les templates ainsi que les fonctions et variables ``inline``/``constexpr`` sont de bons candidats pour remplacer la plupart des ``#define``.
+
+> ``constexpr`` implique ``inline``. Le compilateur est libre d'inliner ou non les élements ``inline``
+
+Constante générique compile-time avec ``#define``:
 ```cpp
-// #define PI 3.14159265358979323846
+#include <iostream>
 
-constexpr auto pi = 3.14159265358979323846;
+#define PI 3.14159265358979323846
 
 auto main() -> int
 {
-    std::cout << pi << std::endl;
+    std::cout << PI << std::endl;
+}
+```
+Constante générique compile-time avec ``template`` et ``constexpr``:
+```cpp
+#include <concepts>
+#include <iostream>
+
+template<std::floating_point T>
+constexpr T pi = T{3.14159265358979323846};
+
+auto main() -> int
+{
+    std::cout
+		<< pi<float> << '\n'
+		<< pi<double> << std::endl;
 }
 ```
 Le compilateur est libre d'inliner les variables ``constexpr`` et d'omettre leur initialisation.
 Cette variable est aussi typée, ce qui en fait une alternative meilleure que les constantes déclarées avec ``#define``.
 
-#### Fonction inline
+Fonction générique compile-time avec ``#define``:
+```cpp
+#include <iostream>
 
-#### Template
+#define ADD(lhs, rhs) lhs + rhs
+
+auto main() -> int
+{
+	using namespace std::literals;
+    std::cout
+		<< ADD(1, 2) << '\n'
+		<< ADD("Hello"s, " World!") << std::endl;
+}
+```
+
+Fonction générique compile-time avec ``template`` et ``constexpr``:
+```cpp
+#include <iostream>
+
+[[nodiscard]] constexpr auto add(auto lhs, auto rhs) noexcept -> decltype(lhs + rhs)
+{
+    return lhs + rhs;
+}
+
+auto main() -> int
+{
+	using namespace std::literals;
+    std::cout
+		<< add(1, 2) << '\n'
+		<< add("Hello"s, " World!") << std::endl;
+}
+```
+Cette fonction est typée et ne compile pas pour des types n'ayant pas d'implémentation de l'``operator+`` entre eux.
+> (les paramètres ``lhs`` et ``rhs`` de type ``auto`` sont convertis en ``template`` par le compilateur)
+
+Dans certains cas, les macros préprocesseur restent la seule façon de faire.
+C'est pourquoi il faut limiter leur usage à ces cas où il n'existe pas encore de meilleure alternative.
 
 ---
 </p></details>
