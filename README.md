@@ -1,8 +1,8 @@
-# Cpp Guidelines
+# C++ Guidelines
 
 ## Introduction
 
-Ce document comprend une coding style et une compilation de guidelines pour des projets en C++.
+Ce document comprend une coding style et une liste de guidelines pour des projets en C++.
 
 <details><summary>A qui s'adresse ce document ?</summary><p>
 
@@ -324,6 +324,75 @@ Le choix E ne permet pas de voir clairement quelles instructions sont dans chaqu
 
 ### Nommage
 
+<details><summary>Variables, fonctions et méthodes: lowerCamelCase</summary><p>
+
+---
+</p></details>
+
+<details><summary>Attributs privés: lowerCamelCase précédés par "m_"</summary><p>
+
+Les attributs privés d'une classe/structure sont écrits en lowerCamelCase ([Wikipedia: lowerCamelCase]), mais également précédés par "m_" pour les différencier des variables avec un scope local ou global.
+Ce préfixe permet d'informer de la portée de la variable, signifiant qu'elle est accessible depuis les méthodes de l'objet uniquement.
+
+```cpp
+class Personnage
+{
+public:
+	Personnage(std::string name):
+		m_name{std::move(name)}
+	{}
+
+	[[nodiscard]] constexpr auto getName() const noexcept -> std::string_view
+	{
+		return m_name;
+	}
+
+private:
+	std::string m_name;
+};
+```
+
+Dans le cas d'une classe/structure avec des attributs publics, il est préférable de garder des noms d'attributs sans préfixe.
+Mais si cet objet a un constructeur, on peut se retrouver dans le cas où les paramètres du constructeur ont le même nom que les attributs, causant une ambiguïté pour le compilateur.
+
+```cpp
+struct Personnage
+{
+	Personnage(std::string name):
+		name{std::move(name)}
+	{}
+
+	std::string name;
+};
+```
+
+Les compilateurs savent lever ce genre d'ambiguïté, mais par soucis de lisibilité il est préférable de donner des noms différents aux paramètres.
+Le préfixe ``p_`` (p comme "parameter") peut servir à différencier ces variables des attributs publics.
+
+```cpp
+struct Personnage
+{
+	Personnage(std::string c_name):
+		name{std::move(c_name)}
+	{}
+
+	std::string name;
+};
+```
+
+---
+</p></details>
+
+<details><summary>Dossiers, fichiers, namespaces, classes et variables globales: UpperCamelCase</summary><p>
+
+---
+</p></details>
+
+<details><summary>Macros préprocesseur: SCREAMING_SNAKE_CASE</summary><p>
+
+---
+</p></details>
+
 <details><summary>Pas de nom de type dans les noms de variable</summary><p>
 
 Le nom d'une variable ne doit pas annoncer explicitement son type (sauf pour les types user-defined).
@@ -479,6 +548,7 @@ Ca prend du temps à écrire, surtout si on veut respecter une uniformisation et
 ### Espaces
 
 <details><summary>Espaces autour des opérateurs</summary><p>
+
 ---
 </p></details>
 
@@ -556,6 +626,12 @@ Pas besoin d'accolades pour expliciter une seconde fois qu'on est dans un nouvea
 
 ### Types
 
+<details><summary>Initialisation d'objets avec {}</summary><p>
+
+
+---
+</p></details>
+
 <details><summary>Almost Always Auto</summary><p>
 
 
@@ -578,6 +654,9 @@ Pas besoin d'accolades pour expliciter une seconde fois qu'on est dans un nouvea
 [Wikipedia: KISS]: https://fr.wikipedia.org/wiki/Principe_KISS
 [Wikipedia: Rasoir d'Ockham]: https://fr.wikipedia.org/wiki/Rasoir_d'Ockham
 [The Boy Scout Rule]: https://www.stepsize.com/blog/how-to-be-an-effective-boy-girl-scout-engineer
+[Wikipedia: lowerCamelCase]: https://fr.wikipedia.org/wiki/Camel_case
+[Wikipedia: UpperCamelCase]: https://fr.wikipedia.org/wiki/Camel_case
+[Wikipedia: snake_case]: https://fr.wikipedia.org/wiki/Snake_case
 [Wikipedia: Include guard]: https://en.wikipedia.org/wiki/Include_guard
 [Wikipedia: Pragma once : Portability]: https://en.wikipedia.org/wiki/Pragma_once#Portability
 
