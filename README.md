@@ -486,7 +486,7 @@ MSVC: [MSVC Header-guard](https://docs.microsoft.com/en-us/cpp/preprocessor/once
 ---
 </p></details>
 
-<details><summary>Utiliser le moins de macros préprocesseur possible</summary><p>
+<details><summary>Utiliser le moins de macros préprocesseur (<code>#define</code>) possible</summary><p>
 
 Les macros ``#define`` apportent un moyen simple de faire de la métaprogrammation et des constantes en C++.
 Mais au fil des évolutions du langage, leur utilité est de moins en moins pertinente.
@@ -510,7 +510,7 @@ Constante générique compile-time avec ``#define``:
 
 auto main() -> int
 {
-    std::cout << PI << std::endl;
+	std::cout << PI << std::endl;
 }
 ```
 Constante générique compile-time avec ``template`` et ``constexpr``:
@@ -519,11 +519,11 @@ Constante générique compile-time avec ``template`` et ``constexpr``:
 #include <iostream>
 
 template<std::floating_point T>
-constexpr T pi = T{3.14159265358979323846};
+constexpr auto pi = T{3.14159265358979323846};
 
 auto main() -> int
 {
-    std::cout
+	std::cout
 		<< pi<float> << '\n'
 		<< pi<double> << std::endl;
 }
@@ -540,7 +540,7 @@ Fonction générique compile-time avec ``#define``:
 auto main() -> int
 {
 	using namespace std::literals;
-    std::cout
+	std::cout
 		<< ADD(1, 2) << '\n'
 		<< ADD("Hello"s, " World!") << std::endl;
 }
@@ -558,7 +558,7 @@ Fonction générique compile-time avec ``template`` et ``constexpr``:
 auto main() -> int
 {
 	using namespace std::literals;
-    std::cout
+	std::cout
 		<< add(1, 2) << '\n'
 		<< add("Hello"s, " World!") << std::endl;
 }
@@ -611,20 +611,64 @@ Ca prend du temps à écrire, surtout si on veut respecter une uniformisation et
 
 <details><summary>Espaces autour des opérateurs</summary><p>
 
+```cpp
+myFunction(1+2*counter()); // difficult to see the terms separately
+```
+```cpp
+myFunction(1 + 2 * counter());
+```
+
 ---
 </p></details>
 
 <details><summary>Pas d'espaces autour des parenthèses</summary><p>
+
+Pas d'espace entre le nom des fonctions et les ()
+Pas d'espace avant les ';'
+```cpp
+void myFunction (int arg0, int arg1, int arg2) ; // useless spaces
+```
+```cpp
+void myFunction(int arg0, int arg1, int arg2);
+```
 
 ---
 </p></details>
 
 <details><summary>Espace après les virgules</summary><p>
 
+Toujours un espace après une virgule, et jamais avant
+```cpp
+void myFunction0(int arg0,int arg1,int arg2); // hard to read
+void myFunction1(int arg0 ,int arg1 ,int arg2); // hard to read
+void myFunction2(int arg0 , int arg1 , int arg2); // useless spaces
+```
+```cpp
+void myFunction(int arg0, int arg1, int arg2);
+```
+
 ---
 </p></details>
 
 <details><summary>Pas d'espaces pour aligner des éléments</summary><p>
+
+Pas d'alignement décoratif des éléments
+```cpp
+int    myFunction0(int arg0);                     // comment0
+void   myFunction1(int arg0, int arg1);           // comment1
+double myFunction2(int arg0, int arg1, int arg2); // comment2
+```
+Ca prend inutilement du temps à écrire et à entretenir lorsqu'on modifie le code.
+```cpp
+int myFunction0(int arg0); // comment0
+void myFunction1(int arg0, int arg1); // comment1
+double myFunction2(int arg0, int arg1, int arg2); // comment2
+```
+
+---
+</p></details>
+
+<details><summary>Espaces dans les accolades seulement si c'est une liste</summary><p>
 
 ---
 </p></details>
