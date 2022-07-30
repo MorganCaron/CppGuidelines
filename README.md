@@ -383,7 +383,8 @@ struct Personnage
 ---
 </p></details>
 
-<details><summary>Dossiers, fichiers, namespaces, classes et variables globales: UpperCamelCase</summary><p>
+<details><summary>Dossiers, fichiers, namespaces, classes, structures et enums: UpperCamelCase</summary><p>
+
 
 ---
 </p></details>
@@ -434,9 +435,9 @@ struct DelUserCmd final
 ```cpp
 using Id = std::uint64_t;
 
-namespace User
+namespace Command
 {
-	struct DeleteCommand final
+	struct DeleteUser final
 	{
 		Id userId;
 	};
@@ -500,7 +501,7 @@ En cas d'erreur, les messages d'erreur ne sont pas très pertinents car le compi
 En C++ moderne il existe des alternatives aux macros préprocesseur pour beaucoup d'usages qu'on peut en faire, les rendant ainsi obsolètes dans beaucoup de situations.
 Parmis ces alternatives, les templates ainsi que les fonctions et variables ``inline``/``constexpr`` sont de bons candidats pour remplacer la plupart des ``#define``.
 
-> ``constexpr`` implique ``inline``. Le compilateur est libre d'inliner ou non les élements ``inline``
+> ``constexpr`` est implicitement ``inline``. Le compilateur est libre d'inliner ou non les élements ``inline``
 
 Constante générique compile-time avec ``#define``:
 ```cpp
@@ -550,7 +551,7 @@ Fonction générique compile-time avec ``template`` et ``constexpr``:
 ```cpp
 #include <iostream>
 
-[[nodiscard]] constexpr auto add(auto lhs, auto rhs) noexcept -> decltype(lhs + rhs)
+[[nodiscard]] constexpr auto add(const auto& lhs, const auto& rhs) noexcept -> decltype(lhs + rhs)
 {
     return lhs + rhs;
 }
@@ -744,8 +745,46 @@ Pas besoin d'accolades pour expliciter une seconde fois qu'on est dans un nouvea
 ---
 </p></details>
 
-<details><summary>Typage en fin de signature</summary><p>
+<details><summary>Typage en fin de signature des fonctions</summary><p>
 
+Utilisation du Trailing return type dans les déclarations de fonctions ([CppReference: Function declaration]).
+Cette écriture permet d'utiliser ``decltype`` ([CppReference: decltype specifier]) et les arguments passés à la fonction pour déduire le type de retour.
+C'est aussi pour apporter une uniformisation entre les syntaxes des déclarations de fonctions et des lambdas ([CppReference: Lambda expressions]).
+
+Fonction déclarée avec un Trailing return type:
+```cpp
+#include <concepts>
+#include <iostream>
+
+constexpr auto add(std::integral auto lhs, std::integral auto rhs) -> decltype(lhs + rhs)
+{
+    return lhs + rhs;
+}
+
+auto main() -> int
+{
+    std::cout << add(1, 2);
+}
+```
+Le même code écrit avec une lambda:
+```cpp
+#include <concepts>
+#include <iostream>
+
+auto main() -> int
+{
+    constexpr auto add = [](std::integral auto lhs, std::integral auto rhs) -> decltype(lhs + rhs)
+    {
+        return lhs + rhs;
+    };
+
+    std::cout << add(1, 2);
+}
+```
+Le type de retour est renseigné par ``-> decltype(lhs + rhs)`` en fin de déclaration de fonction.
+decltype permet de déduire le type de retour par rapport à la valeur renvoyée par ``lhs + rhs``.
+
+Attention, dans le cas de l'écriture sous forme de lambda, le ``auto`` à gauche du nom de la lambda n'est pas le type de retour mais le type de la lambda.
 
 ---
 </p></details>
